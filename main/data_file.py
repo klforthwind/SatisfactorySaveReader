@@ -8,6 +8,7 @@ class DataFile(File):
 
         self.prop_funcs = {
             'IntProperty': self.process_int,
+            'Int64Property': self.process_int64,
             'StrProperty': self.process_str,
             'ObjectProperty': self.process_obj,
             'BoolProperty': self.process_bool,
@@ -15,6 +16,7 @@ class DataFile(File):
             'EnumProperty': self.process_enum,
             'NameProperty': self.process_name,
             'TextProperty': self.process_text,
+            'MapProperty': self.process_map,
             'StructProperty': self.process_struct,
             'ArrayProperty': self.process_array
         }
@@ -39,7 +41,7 @@ class DataFile(File):
 
         for _ in range(obj_count):
             obj_type = self.read_int()
-            json['objects'].append([self.read_object, self.read_actor][obj_type]())
+            json['objects'].append([self.read_component, self.read_actor][obj_type]())
 
     def process_elements(self, json) -> None:
         """Adds to json all entity / property data for objects."""
@@ -60,7 +62,7 @@ class DataFile(File):
             names = [self.read_str() for __ in range(2)]
             json['collected'].append({'levelName': names[0], 'pathName': names[1]})
 
-    def read_object(self) -> None:
+    def read_component(self) -> None:
         """Reads any object of type 0 (object does not have coordinates / translation)."""
         names = [self.read_str() for _ in range(4)]
         return {
@@ -150,6 +152,10 @@ class DataFile(File):
         self.read_null()
         props['value'] = self.read_int()
 
+    def process_int64(self, props):
+        self.read_null()
+        props['value'] = self.read_long()
+
     def process_str(self, props):
         self.read_null()
         props['value'] = self.read_str()
@@ -190,6 +196,31 @@ class DataFile(File):
         self.read_str()     # Unknown
         props['value'] = self.read_str()
 
+    def process_map(self, props):
+        name = self.read_str()
+        print(f'Name: {name}')
+        value_type = self.read_str()
+        print(f'ValType: {value_type}')
+
+        self.read_null()
+        self.read_null()
+        self.read_null()
+        self.read_null()
+        self.read_null()
+
+        count = self.read_int()
+        values = {}
+        print(f'Count: {count}')
+
+        for _ in range(count):
+            key = self.read_int()
+
+        props['value'] = {
+            'name': name,
+            'type': value_type,
+            'values': values
+        }
+
     def process_struct(self, props):
         """Processes struct data, adding the resulting data to props."""
         struct_type = self.read_str()
@@ -212,6 +243,21 @@ class DataFile(File):
                 'isValid': self.read_byte()
             }
 
+        elif struct_type == 'Quat':
+            x, y, z, w = [self.read_float() for _ in range(4)]
+            props['value'] = {
+                'x': x, 'y': y, 'z': z, 'w': w
+            }
+
+        elif struct_type == 'Transform':
+            transform_prop = []
+            while (self.read_props(transform_prop)):
+                pass
+            props['value'] = {
+                'type': struct_type,
+                'properties': transform_prop
+            }
+
         elif struct_type == 'Vector':
             x, y, z = [self.read_float() for _ in range(3)]
             props['value'] = {
@@ -231,6 +277,8 @@ class DataFile(File):
                 'pathName': names[2],
                 'properties': struct_props
             }
+        else:
+            print(f'Fucked: {struct_type}')
 
     def process_array(self, props):
         """Processes objects in array, adding the resulting data to parameter props."""
