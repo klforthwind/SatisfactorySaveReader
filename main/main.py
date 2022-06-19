@@ -14,10 +14,17 @@ zlib_file = ZLIBFile(SAVE_FILE)
 zlib_file.process_all(ZLIB_DECOMPRESSED)
 json = zlib_file.get_header()
 
+print(json)
+
 print(f'\nPROCESSING DECOMPRESSED FILE TO JSON\n')
 """Processes decompressed save data."""
 data_file = DataFile(ZLIB_DECOMPRESSED)
 data_file.process_all(json)
+
+print(json.keys())
+print()
+print(json['objects'][1337])
+print(json['objects'][1337])
 
 """Initialize two CSV files for saving data."""
 hard_drives = CSVFile(HARD_DRIVES)

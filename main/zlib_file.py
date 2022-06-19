@@ -47,7 +47,7 @@ class ZLIBFile(File):
         while self.file.tell() < self.file_size:
             chunk_header = [self.read_long() for _ in range(6)]
 
-            # self._log_chunks(chunk_header)
+            self._log_chunks(chunk_header)
 
             chunk = self.read_bytes(chunk_header[2])
             decompressed_chunk = zlib.decompress(chunk)

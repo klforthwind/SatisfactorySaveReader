@@ -278,7 +278,7 @@ class DataFile(File):
                 'properties': struct_props
             }
         else:
-            print(f'Fucked: {struct_type}')
+            print(f'Unknown struct type: {struct_type}')
 
     def process_array(self, props):
         """Processes objects in array, adding the resulting data to parameter props."""
