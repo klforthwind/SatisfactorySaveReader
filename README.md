@@ -1,7 +1,12 @@
 # Satisfactory Save Reader
 This python program generates necessary CSV data for [Satisfactory Loot Maps](https://github.com/klforthwind/SatisfactoryLootMaps) by interpretting data from a Satisfactory save file. The program consists of five python files, with `main.py` being the python file to run in order to obtain two CSV files - `loot_points.csv` and `hard_drives.csv`. Both of these generated CSV files are used for generating loot maps (after some manual fixing / adding some points of interest).
+
 ***(Note: This python program will not function on a big file save - as certain functionality is not programmed yet)***
+
 ***(Note: This python program also breaks on Update 6 saves at the moment)***
+
+Video on Satisfactory Save Reader can be found [here](https://youtu.be/tOUbUM7gMZA).
+
 
 ## How To Download And Run
 ### Cloning Repo
