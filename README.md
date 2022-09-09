@@ -45,7 +45,7 @@ If we wanted to obtain a CSV file of the locations of all of the bacon agaric, w
 ```
 .
 ├── img                     # Image files for README.md
-├── main                    # All python files
+├── src                     # All python files
 ├── output                  # CSV output files
 ├── saves                   # Satisfactory saves
 └── README.md
@@ -55,7 +55,7 @@ If we wanted to obtain a CSV file of the locations of all of the bacon agaric, w
 ### Main
 ```
 .
-├── main                    # All python files
+├── src                     # All python files
 │   ├── csv_file.py         # CSV file class for writing CSV data
 │   ├── data_file.py        # Data file class for reading decompressed zlib data
 │   ├── file.py             # File parent class that has reading / writing capabilities
