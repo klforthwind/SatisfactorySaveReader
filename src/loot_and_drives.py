@@ -1,6 +1,6 @@
 from files.zlib_file import *
 from files.data_file import *
-from files.csv_file import *
+from files.file import *
 
 """File location variables for reading."""
 SAVE_FILE = '../saves/TESTING.sav'
