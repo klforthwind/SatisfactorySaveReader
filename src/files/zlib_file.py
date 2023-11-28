@@ -1,9 +1,11 @@
-from files.file import *
+"""ZLIB File Class - File class for reading compressed zlib files (ex. Satisfactory save files)."""
 import zlib
+
+from files.file import File
 
 
 class ZLIBFile(File):
-    """ZLIB File Class - File class for reading compressed zlib files (ex. Satisfactory save files)."""
+    """ZLIB File Class - Class for reading compressed zlib files (ex. Satisfactory save files)."""
 
     def __init__(self, save_file, perms="rb") -> None:
         super().__init__(save_file, perms)
@@ -20,6 +22,7 @@ class ZLIBFile(File):
         if self._is_closed:
             print("File is closed - Unable to process :(")
             return
+
         self._process_header()
         self._process_zlib_data(output_file)
         self.close()
@@ -30,8 +33,8 @@ class ZLIBFile(File):
             "headerVersion": self.read_int(),
             "saveVersion": self.read_int(),
             "buildVersion": self.read_int(),
-            "worldType": self.read_str(),
-            "worldProps": self.read_str(),
+            "mapName": self.read_str(),
+            "mapOptions": self.read_str(),
             "sessionName": self.read_str(),
             "playTimeSeconds": self.read_int(),
             "saveDateInTicks": self.read_long(),
@@ -39,6 +42,7 @@ class ZLIBFile(File):
             "editorObjectVersion": self.read_int(),
             "modMetadata": self.read_str(),
             "modFlags": self.read_int(),
+            "saveIdentifier": self.read_str(),
             "objects": [],
             "collected": [],
         }

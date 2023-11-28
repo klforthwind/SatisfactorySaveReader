@@ -1,6 +1,8 @@
+"""File parent class for basic functions."""
 import struct
 
-class File():
+
+class File:
     """File Class - Parent class that handles reading and writing files."""
 
     def __init__(self, file, perms) -> None:
@@ -10,30 +12,38 @@ class File():
 
     def _read(self, val_type, byte_count):
         return struct.unpack(val_type, self.file.read(byte_count))[0]
-    
-    def _write(self, value):
+
+    def write(self, value):
+        """Write value to file."""
         self.file.write(value)
 
     def read_int(self) -> int:
-        return self._read('i', 4)
+        """Read int."""
+        return self._read("i", 4)
 
     def read_float(self) -> float:
-        return self._read('f', 4)
+        """Read float."""
+        return self._read("f", 4)
 
     def read_long(self):
-        return self._read('q', 8)
+        """Read long."""
+        return self._read("q", 8)
 
     def read_byte(self):
-        return self._read('b', 1)
-    
+        """Read byte."""
+        return self._read("b", 1)
+
     def read_null(self) -> None:
+        """Read null."""
         self.read_byte()
 
     def read_str(self) -> str:
+        """Read int and string of certain length int."""
         length = self.read_int()
-        return self.file.read(length).decode('ascii')[:-1]
+        return self.file.read(length).decode("ascii")[:-1]
 
     def read_bytes(self, length):
+        """Read bytes of length."""
         return self.file.read(length)
 
     def get_size(self) -> int:
@@ -45,5 +55,6 @@ class File():
         return file_size
 
     def close(self) -> None:
+        """Closes the file."""
         self._is_closed = True
         self.file.close()
