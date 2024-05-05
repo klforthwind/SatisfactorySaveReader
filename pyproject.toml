@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "satisfactory-save-reader"
+version = "0.8.2"
+authors = [
+  { name="Forthwind", email="kl.forthwind@gmail.com" },
+]
+description = "Package to parse a Satisfactory save file"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/klforthwind/SatisfactorySaveReader"
+Issues = "https://github.com/klforthwind/SatisfactorySaveReader/issues"
+

@@ -1,44 +1,33 @@
 # Satisfactory Save Reader
-This python program generates necessary CSV data for [Satisfactory Loot Maps](https://github.com/klforthwind/SatisfactoryLootMaps) by interpretting data from a Satisfactory save file. The program consists of five python files, with `main.py` being the python file to run in order to obtain two CSV files - `loot_points.csv` and `hard_drives.csv`. Both of these generated CSV files are used for generating loot maps (after some manual fixing / adding some points of interest).
+This python package reads a satisfactory save file, allowing easy consumption for other programs.
 
 ***(Note: This python program will not function on a big file save - as certain functionality is not programmed yet)***
 
-***(Note: This python program also breaks on Update 6 saves at the moment)***
-
 Video on Satisfactory Save Reader can be found [here](https://youtu.be/tOUbUM7gMZA).
 
-
-## How To Download And Run
-### Cloning Repo
-```sh
-git clone https://github.com/klforthwind/SatisfactorySaveReader.git
-```
-
 ### Install Instructions
-The only python modules we are using within the program are `struct` and `zlib` which should come pre-installed with Python3.
+```
+python3 -m pip install satisfactory-save-reader
+```
 
-### Running The Code
-1. Place a save file in the `saves` folder
-2. Update variable `SAVE_FILE` at the top of `main.py` to your save file
+### Example Code Using the Package
 ```py
-"""File location variables for reading."""
-SAVE_FILE = '../saves/<save_file>'              # ex. "../saves/TESTING.sav" <===
-```
-3. Run the program
-```sh
-cd main
-python3 main.py 
-# CSV files will be saved to output folder, unless changed
+from satisfactory_save_reader.save_reader import SaveReader
+
+# File location variables for reading
+SAVE_FILE = sys.argv[1]
+
+save_data = SaveReader(f"{SAVE_FILE}")
+
+objects = save_data.get_objects()
+for obj_name, obj in objects.items():
+    print(obj_name)
 ```
 
-## Reading Beryl Nuts / Paleberries / Bacon Agaric / Other
-If we wanted to obtain a CSV file of the locations of all of the bacon agaric, we could:
-1. Look at json data in `main.py` to determine which objects are for bacon agaric
-2. Add a function in CSV file that would get the specific data from each object
-3. Replicate structure of HardDrive / MapLoot CSV creation within `main.py`
-4. Add a variable at the top of `main.py` to not have a magical string holding where the output should go
-5. Run `main.py` again, hopefully to find a new file within the output folder
+Example downloading saves from dedicated server, and UI: 
+More examples can be found [here]().
 
+***more examples to be added***
 
 ## Code Structure
 ### SatisfactorySaveReader
@@ -46,22 +35,23 @@ If we wanted to obtain a CSV file of the locations of all of the bacon agaric, w
 .
 ├── img                     # Image files for README.md
 ├── src                     # All python files
-├── output                  # CSV output files
-├── saves                   # Satisfactory saves
 └── README.md
 ```
 
 
-### Main
+### src
 ```
 .
-├── src                     # All python files
-│   ├── csv_file.py         # CSV file class for writing CSV data
-│   ├── data_file.py        # Data file class for reading decompressed zlib data
-│   ├── file.py             # File parent class that has reading / writing capabilities
-│   ├── main.py             # Main file that handles the interaction between other python files
-│   ├── zlib_file.py        # Zlib file class for reading compressed zlib data (from Satisfactory saves)
-│   └── ...                 # etc.
+
+├── satisfactory_save_reader    # Python package
+├── __init__.py
+│   ├── bin_file.py             # File to process the bin file
+│   ├── data_file.py            # Data file class for reading decompressed zlib data
+│   ├── file.py                 # File parent class that has reading / writing capabilities
+│   ├── save_reader.py          # Main file to initialize a SaveReader
+│   ├── utils.py                # Util functions
+│   ├── zlib_file.py            # Zlib file class for reading compressed zlib data (from Satisfactory saves)
+│   └── ...                     # etc.
 ├── ...
 └── ...
 ```
